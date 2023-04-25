@@ -21,7 +21,8 @@ Return the earliest possible day where all seeds are blooming.
 Example 1:
 Input: plantTime = [1,4,3], growTime = [2,3,1]
 Output: 9
-Explanation: The grayed out pots represent planting days, colored pots represent growing days, and the flower represents the day it blooms.
+Explanation: The grayed out pots represent planting days, colored pots represent growing days, 
+and the flower represents the day it blooms.
 One optimal way is:
 On day 0, plant the 0th seed. The seed grows for 2 full days and blooms on day 3.
 On days 1, 2, 3, and 4, plant the 1st seed. The seed grows for 3 full days and blooms on day 8.
@@ -31,7 +32,8 @@ Thus, on day 9, all the seeds are blooming.
 Example 2:
 Input: plantTime = [1,2,3,2], growTime = [2,1,2,1]
 Output: 9
-Explanation: The grayed out pots represent planting days, colored pots represent growing days, and the flower represents the day it blooms.
+Explanation: The grayed out pots represent planting days, colored pots represent growing days, 
+and the flower represents the day it blooms.
 One optimal way is:
 On day 1, plant the 0th seed. The seed grows for 2 full days and blooms on day 4.
 On days 0 and 3, plant the 1st seed. The seed grows for 1 full day and blooms on day 5.
@@ -51,12 +53,25 @@ LeetCode link: https://leetcode.com/problems/earliest-possible-day-of-full-bloom
 
 #region Solution
 
-Console.WriteLine(EarliestFullBloom(new int[] { 1, 4, 3 }, new int[] { 2, 3, 1 }));
+//Console.WriteLine(EarliestFullBloom(new int[] { 1, 4, 3 }, new int[] { 2, 3, 1 }));
+Console.WriteLine(EarliestFullBloom(new int[] {1, 2, 3, 2}, new int[] { 2, 1, 2, 1 }));
 static int EarliestFullBloom(int[] plantTime, int[] growTime)
 {
     var result = 0;
 
-    //code
+    var list = new List<Tuple<int, int>>();
+    for (int i = 0; i < plantTime.Length; i++)
+    {
+        list.Add(Tuple.Create(plantTime[i], growTime[i]));
+    }
+    list = list.OrderByDescending(x => x.Item2).ToList();
+
+    var day = 0;
+    foreach (var item in list)
+    {
+        day += item.Item1;
+        result = Math.Max(result, day + item.Item2);
+    }
 
     return result;
 }
